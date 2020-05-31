@@ -77,6 +77,24 @@ def line_to_points(img, line):
     return pt1, pt2
 
 
+def calc_line(x, line):
+    """
+    Calculates y for given x of line.
+
+    Can handle vertical lines represented by tuple (inf, x). In that case
+    math.nan is returned.
+
+    :param x: x value.
+    :param line: Line tuple (theta in radians, y displacement).
+    :return: y value or math.nan for vertical lines.
+    """
+    if math.isclose(line[0], math.inf):
+        return math.nan
+    else:
+        gradient = math.tan(line[0])
+        return gradient * x + line[1]
+
+
 def draw_line(img, line, color=(255, 0, 0), thickness=1):
     """
     Draws a line that is represented by (theta, displacement).
@@ -104,3 +122,16 @@ def draw_rect(img, rect, color=(255, 0, 0), thickness=1):
     """
     cv2.rectangle(img, (rect[0], rect[1]), (rect[0]+rect[2], rect[1]+rect[3]), color, thickness)
 
+
+def contour_center(contour):
+    """
+    Calculates center vie moments.
+
+    :param contour: Contour to calc center for.
+    :return: Tuple (cx, cy).
+    """
+    M = cv2.moments(contour)
+    cx = M['m10']/M['m00']
+    cy = M['m01']/M['m00']
+
+    return cx, cy
