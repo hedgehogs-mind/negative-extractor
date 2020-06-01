@@ -2,7 +2,7 @@ from statistics import mean
 
 import cv2
 
-from util import closest_contour, group_contours_by_distance, points_to_line, contour_center
+from util import group_contours_by_distance, points_to_line, contour_center
 
 
 def create_bordered_negative(negative):
@@ -77,7 +77,8 @@ def split_sprocket_holes(sprocket_holes_contours):
     :return: Tuple (top_contours, bottom_contours).
     """
 
-    groups = group_contours_by_distance(sprocket_holes_contours)
+    # n = 2, because a sprocket hole can be at the left and/or right of the current hole
+    groups = group_contours_by_distance(sprocket_holes_contours, 2)
     assert len(groups) == 2, "Expected two rows of sprocket holes, but found {}".format(len(groups))
 
     g1 = groups[0]

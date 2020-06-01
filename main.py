@@ -6,7 +6,8 @@ import math
 import numpy as np
 
 from strip import create_bordered_negative, create_bw_negative, get_sprocket_holes_contours, split_sprocket_holes
-from util import draw_line, group_contours_by_distance, closest_contour, closest_transitive_contours
+from util import draw_line, group_contours_by_distance, closest_transitive_contours, contours_top_line, \
+    contours_bottom_line, contours_center_line, n_closest_contours
 
 # todo: what happens if i have a negative with background all around?
 
@@ -18,8 +19,9 @@ cv2.resizeWindow(window, 800, 600)
 t_start = time.time()
 
 
-#negative = cv2.imread("images/test_negative_small_rotated_wo_both.tiff")
-negative = cv2.imread("images/test_single_negative_small.tiff")
+#negative = cv2.imread("images/test_negative_small_rotated.tiff")
+#negative = cv2.imread("images/test_single_negative_small.tiff")
+negative = cv2.imread("images/test_negative_small.tiff")
 
 
 
@@ -36,21 +38,57 @@ bw_negative = create_bw_negative(bordered_negative)
 # Now lets create contours with hierarchy
 sprocket_holes_contours = get_sprocket_holes_contours(bw_negative)
 
+holes = list(sprocket_holes_contours)
+hole1 = holes.pop(0)
+
+# closests, rest = closest_transitive_contours(hole1, holes, 2)
+# cnts, dists, inds = n_closest_contours(hole1, holes, n=2)
+
+# cv2.drawContours(neg_copy, [hole1], -1, (0, 0, 255), 3)
+# cv2.imshow(window, neg_copy)
+# cv2.waitKey(-1)
+# cv2.drawContours(neg_copy, closests, -1, (0, 255, 255), 3)
+# cv2.imshow(window, neg_copy)
+
+# groups = group_contours_by_distance(sprocket_holes_contours, 2)
+
+# for cnt in sprocket_holes_contours:
+#     cv2.waitKey(-1)
+#     cv2.drawContours(neg_copy, [cnt], -1, (255, 0, 0), 3)
+#     cv2.imshow(window, neg_copy)
+
+# for g in groups:
+#     cv2.waitKey(-1)
+#     cv2.drawContours(neg_copy, g, -1, (255, 0, 0), 3)
+#     cv2.imshow(window, neg_copy)
+
+
+
 (top_holes, bottom_holes) = split_sprocket_holes(sprocket_holes_contours)
 
 cv2.drawContours(neg_copy, top_holes, -1, (255, 0, 0), 3)
 cv2.drawContours(neg_copy, bottom_holes, -1, (0, 0, 255), 3)
 
-# holes = list(sprocket_holes_contours)
-# hole1 = holes.pop(0)
-# cv2.drawContours(neg_copy, [hole1], -1, (255, 0, 0), 3)
-#
-# group, rest = closest_transitive_contours(hole1, holes)
+tul = contours_top_line(top_holes)
+tcl = contours_center_line(top_holes)
+tll = contours_bottom_line(top_holes)
+
+bul = contours_top_line(bottom_holes)
+bcl = contours_center_line(bottom_holes)
+bll = contours_bottom_line(bottom_holes)
+
+print(bul)
+
+draw_line(neg_copy, tul, (230, 255, 0), 1)
+draw_line(neg_copy, tcl, (230, 255, 0), 1)
+draw_line(neg_copy, tll, (230, 255, 0), 1)
+
+draw_line(neg_copy, bul, (230, 255, 0), 1)
+draw_line(neg_copy, bcl, (230, 255, 0), 1)
+draw_line(neg_copy, bll, (230, 255, 0), 1)
 
 
 
-##groups = group_contours_by_distance(sprocket_holes_contours)
-#print(groups)
 
 # Processing end
 
