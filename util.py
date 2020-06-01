@@ -22,16 +22,18 @@ def points_to_line(points):
     assert len(points) > 1, "Need at least two points"
 
     points_ltr = sorted(points, key=lambda p: p[0])
-
     delta_sum = 0
-    for i in range(2, len(points_ltr)-1):
-        y1 = points_ltr[i-1][1]
-        y2 = points_ltr[i][1]
 
-        delta_sum += y2-y1
+    for i in range(1, len(points_ltr)):
+        pt1 = points_ltr[i-1]
+        pt2 = points_ltr[i]
 
-    dist_left_to_right = points_ltr[-1][0]-points_ltr[0][0]
-    delta = delta_sum/dist_left_to_right
+        dist = pt2[0]-pt1[0]
+        abs_delta = pt2[1]-pt1[1]
+
+        delta_sum += abs_delta/dist
+
+    delta = delta_sum / (len(points_ltr)-1)
     avg_x = statistics.mean(map(lambda p: p[0], points))
     avg_y = statistics.mean(map(lambda p: p[1], points))
 

@@ -16,17 +16,19 @@ cv2.namedWindow(window, cv2.WINDOW_NORMAL)
 cv2.resizeWindow(window, 800, 600)
 
 
-t_start = time.time()
 
 
-#negative = cv2.imread("images/test_negative_small_rotated.tiff")
+
+#negative = cv2.imread("images/test_negative_small_rotated_mirrored.tiff")
+negative = cv2.imread("images/test_negative_small_rotated.tiff")
 #negative = cv2.imread("images/test_single_negative_small.tiff")
-negative = cv2.imread("images/test_negative_small.tiff")
-
+#negative = cv2.imread("images/test_negative_small.tiff")
 
 
 
 # Processing start
+t_start = time.time()
+
 
 # First let us add a white border
 bordered_negative = create_bordered_negative(negative)
@@ -38,36 +40,13 @@ bw_negative = create_bw_negative(bordered_negative)
 # Now lets create contours with hierarchy
 sprocket_holes_contours = get_sprocket_holes_contours(bw_negative)
 
-holes = list(sprocket_holes_contours)
-hole1 = holes.pop(0)
-
-# closests, rest = closest_transitive_contours(hole1, holes, 2)
-# cnts, dists, inds = n_closest_contours(hole1, holes, n=2)
-
-# cv2.drawContours(neg_copy, [hole1], -1, (0, 0, 255), 3)
-# cv2.imshow(window, neg_copy)
-# cv2.waitKey(-1)
-# cv2.drawContours(neg_copy, closests, -1, (0, 255, 255), 3)
-# cv2.imshow(window, neg_copy)
-
-# groups = group_contours_by_distance(sprocket_holes_contours, 2)
-
-# for cnt in sprocket_holes_contours:
-#     cv2.waitKey(-1)
-#     cv2.drawContours(neg_copy, [cnt], -1, (255, 0, 0), 3)
-#     cv2.imshow(window, neg_copy)
-
-# for g in groups:
-#     cv2.waitKey(-1)
-#     cv2.drawContours(neg_copy, g, -1, (255, 0, 0), 3)
-#     cv2.imshow(window, neg_copy)
-
-
-
+# Let us divide the holes into top and bottom
 (top_holes, bottom_holes) = split_sprocket_holes(sprocket_holes_contours)
 
-cv2.drawContours(neg_copy, top_holes, -1, (255, 0, 0), 3)
-cv2.drawContours(neg_copy, bottom_holes, -1, (0, 0, 255), 3)
+cv2.drawContours(neg_copy, top_holes, -1, (255, 0, 0), 2)
+cv2.drawContours(neg_copy, bottom_holes, -1, (0, 0, 255), 2)
+
+# Let us draw their top, center and bottom lines
 
 tul = contours_top_line(top_holes)
 tcl = contours_center_line(top_holes)
@@ -76,8 +55,6 @@ tll = contours_bottom_line(top_holes)
 bul = contours_top_line(bottom_holes)
 bcl = contours_center_line(bottom_holes)
 bll = contours_bottom_line(bottom_holes)
-
-print(bul)
 
 draw_line(neg_copy, tul, (230, 255, 0), 1)
 draw_line(neg_copy, tcl, (230, 255, 0), 1)
@@ -92,10 +69,8 @@ draw_line(neg_copy, bll, (230, 255, 0), 1)
 
 # Processing end
 
-
-
 t_end = time.time()
-print("time: {}".format((t_end-t_start)))
+print("time: {:.3f}s".format((t_end-t_start)))
 
 
 
