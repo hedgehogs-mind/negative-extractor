@@ -43,12 +43,14 @@ sprocket_holes_contours = get_sprocket_holes_contours(bw_negative)
 # Let us divide the holes into top and bottom
 (top_holes, bottom_holes) = split_sprocket_holes(sprocket_holes_contours)
 
-cv2.drawContours(neg_copy, top_holes, -1, (255, 0, 0), 2)
-cv2.drawContours(neg_copy, bottom_holes, -1, (0, 0, 255), 2)
+cv2.drawContours(neg_copy, top_holes, -1, (255, 0, 0), 1)
+cv2.drawContours(neg_copy, bottom_holes, -1, (0, 0, 255), 1)
 
 # Let us draw their top, center and bottom lines
 
+print("LOL:")
 tul = contours_top_line(top_holes)
+print("tul: {}".format(tul))
 tcl = contours_center_line(top_holes)
 tll = contours_bottom_line(top_holes)
 

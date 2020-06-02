@@ -21,32 +21,38 @@ def points_to_line(points):
 
     assert len(points) > 1, "Need at least two points"
 
-    points_ltr = sorted(points, key=lambda p: p[0])
-    delta_sum = 0
+    # key function > top to bottom, left to right
+    points_sorted = sorted(points, key=lambda p: (p[1], p[0]))
+    angles_sum = 0
 
-    for i in range(1, len(points_ltr)):
-        pt1 = points_ltr[i-1]
-        pt2 = points_ltr[i]
+    avg_x = statistics.mean(map(lambda p: p[0], points_sorted))
+    avg_y = statistics.mean(map(lambda p: p[1], points_sorted))
 
-        dist = pt2[0]-pt1[0]
-        abs_delta = pt2[1]-pt1[1]
+    # Add all angles between two points
+    for i in range(1, len(points_sorted)):
+        pt1 = points_sorted[i - 1]
+        pt2 = points_sorted[i]
 
-        delta_sum += abs_delta/dist
+        assert pt1[0] != pt2[0] and pt1[1] != pt2[1], \
+            "Got two points equal to each other, only distinct points allowed"
 
-    delta = delta_sum / (len(points_ltr)-1)
-    avg_x = statistics.mean(map(lambda p: p[0], points))
-    avg_y = statistics.mean(map(lambda p: p[1], points))
+        delta_y = pt2[1]-pt1[1]
+        length = np.linalg.norm(pt2-pt1)
+        angle = delta_y/length
 
-    gradient = 0
-    displacement = 0
+        angles_sum += angle
 
-    # First check if we need to handle vertical lines
-    if math.isclose(delta, math.inf):
-        gradient = math.inf
-        displacement = avg_x
-    else:
-        gradient = math.atan(delta)
-        displacement = avg_y - (avg_x*delta)
+    avg_angle = angles_sum/(len(points_sorted)-1)
+
+    # vertical line
+    vertical_tolerance = math.pi/180 * 0.1  # 0.1 degrees
+    vertical_angle = math.pi/2
+    if math.isclose(avg_angle, vertical_angle, abs_tol=vertical_tolerance):
+        return math.inf, avg_x
+
+    # "Normal" line > return gradient and displacement
+    gradient = math.atan(avg_angle)
+    displacement = avg_y - (avg_x * gradient)
 
     return gradient, displacement
 
@@ -313,9 +319,9 @@ def contour_top(contour):
     Finds most top point of given contour.
 
     :param contour: Contour.
-    :return: Top point (x, y).
+    :return: Top point (x, y) as numpy array.
     """
-    return tuple(contour[contour[:, :, 1].argmin()][0])
+    return contour[contour[:, :, 1].argmin()][0]
 
 
 def contour_bottom(contour):
@@ -325,7 +331,7 @@ def contour_bottom(contour):
     :param contour: Contour.
     :return: Bottom point (x, y).
     """
-    return tuple(contour[contour[:, :, 1].argmax()][0])
+    return contour[contour[:, :, 1].argmax()][0]
 
 
 def contour_left(contour):
@@ -335,7 +341,7 @@ def contour_left(contour):
     :param contour: Contour.
     :return: Left point (x, y).
     """
-    return tuple(contour[contour[:, :, 0].argmin()][0])
+    return contour[contour[:, :, 0].argmin()][0]
 
 
 def contour_right(contour):
@@ -345,7 +351,7 @@ def contour_right(contour):
     :param contour: Contour.
     :return: Right point (x, y).
     """
-    return tuple(contour[contour[:, :, 0].argmax()][0])
+    return contour[contour[:, :, 0].argmax()][0]
 
 
 def contours_center_line(contours):
