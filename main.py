@@ -51,6 +51,7 @@ sprocket_holes_contours = get_sprocket_holes_contours(bw_negative)
 tcl = contours_center_line(top_holes)
 bcl = contours_center_line(bottom_holes)
 
+
 angle_top = line_angle(tcl)
 angle_bottom = line_angle(bcl)
 strip_angle = 0.5 * (angle_top + angle_bottom)

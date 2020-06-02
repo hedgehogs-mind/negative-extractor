@@ -9,7 +9,7 @@ def points_to_line(points):
     """
     Creates line based on points. Averages lines.
 
-    Points will be treated left to right.
+    Attention!: Points are expected to be in the right order!
 
     Descending gradients will result in positive gradient (coordinate system is flipped y-wise).
 
@@ -22,8 +22,8 @@ def points_to_line(points):
 
     assert len(points) > 1, "Need at least two points"
 
-    # key function > top to bottom, left to right
-    points_sorted = sorted(points, key=lambda p: (p[1], p[0]))
+    # key function > left to right
+    points_sorted = list(points)
     angles_sum = 0
 
     avg_x = statistics.mean(map(lambda p: p[0], points_sorted))
