@@ -49,22 +49,40 @@ def get_sprocket_holes_contours(bw_negative):
 
     All contours within the negative will be returned (should only be the sprocket holes)
 
+    Searches the biggest contour in the first hierarchy level (prevents dust) and then grabs
+    all its children as sprocket holes.
+
     :param bw_negative: Negative with black background/border and white strip.
     :return: All contours found within the strip.
     """
 
     contours, hierarchy = cv2.findContours(bw_negative, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
-    next_of_root = hierarchy[0][0][0]
-    assert next_of_root == -1, "There are more than one rectangles in the first hierarchy level"
+    # Grab size of first root contour, assume it is the biggest
+    big_root = 0
+    big_rect = cv2.minAreaRect(contours[big_root])
+    big_size = big_rect[1][0] * big_rect[1][1]
+
+    # check if there are contours in the same hierarchy level bigger than the first root
+    next_root = hierarchy[0][big_root][0]
+    while next_root >= 0:
+        next_rect = cv2.minAreaRect(contours[next_root])
+        next_size = next_rect[1][0] * next_rect[1][1]
+
+        if next_size > big_size:
+            big_root = next_root
+            big_rect = next_rect
+            big_size = next_size
+
+        next_root = hierarchy[0][next_root][0]
 
     # First is the child
-    next_contour = hierarchy[0][0][2]
+    child_contour = hierarchy[0][big_root][2]
 
     child_contours = []
-    while next_contour >= 0:
-        child_contours.append(contours[next_contour])
-        next_contour = hierarchy[0][next_contour][0]
+    while child_contour >= 0:
+        child_contours.append(contours[child_contour])
+        child_contour = hierarchy[0][child_contour][0]
 
     return child_contours
 

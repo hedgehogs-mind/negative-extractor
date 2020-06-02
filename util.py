@@ -11,9 +11,10 @@ def points_to_line(points):
 
     Points will be treated left to right.
 
-    Descending gradients will result in positive theta (coordinate system is flipped y-wise).
+    Descending gradients will result in positive gradient (coordinate system is flipped y-wise).
 
-    If the line is vertical, theta will be math.inf.
+    If the line is vertical, theta will be math.inf. In case the points go from top to bottom,
+    it will be positive inf, from bottom to top > negative inf.
 
     :param points: List of points (x, y).
     :return: Tuple (gradient, y displacement) or (inf, x displacement) for vertical lines.
@@ -33,7 +34,7 @@ def points_to_line(points):
         pt1 = points_sorted[i - 1]
         pt2 = points_sorted[i]
 
-        assert pt1[0] != pt2[0] and pt1[1] != pt2[1], \
+        assert not (pt1[0] == pt2[0] and pt1[1] == pt2[1]), \
             "Got two points equal to each other, only distinct points allowed"
 
         delta_y = pt2[1]-pt1[1]
@@ -47,14 +48,41 @@ def points_to_line(points):
     # vertical line
     vertical_tolerance = math.pi/180 * 0.1  # 0.1 degrees
     vertical_angle = math.pi/2
+
     if math.isclose(avg_angle, vertical_angle, abs_tol=vertical_tolerance):
-        return math.inf, avg_x
+
+        # Check approx. direction
+        delta_y_first_to_last = points_sorted[-1][1].points_sorted[0][1]
+
+        if delta_y_first_to_last >= 0:
+            # top to bottom
+            return math.inf, avg_x
+        else:
+            # bottom to top
+            return -math.inf, avg_x
 
     # "Normal" line > return gradient and displacement
     gradient = math.atan(avg_angle)
     displacement = avg_y - (avg_x * gradient)
 
     return gradient, displacement
+
+
+def line_angle(line):
+    """
+    Translates the gradient into an angle.
+
+    In case of a vertical line, the angle will be either +/- 90° in radians (pi/2 resp. -pi/2).
+
+    :param line: Line.
+    :return: Angle of line.
+    """
+    if math.isclose(line[0], math.inf):
+        return math.pi/2
+    elif math.isclose(line[0], -math.inf):
+        return -math.pi/2
+    else:
+        return math.atan(line[0])
 
 
 def line_to_points(img, line):
