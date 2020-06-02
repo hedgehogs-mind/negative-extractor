@@ -22,8 +22,8 @@ def points_to_line(points):
 
     assert len(points) > 1, "Need at least two points"
 
-    # key function > left to right
     points_sorted = list(points)
+
     angles_sum = 0
 
     avg_x = statistics.mean(map(lambda p: p[0], points_sorted))
@@ -418,3 +418,82 @@ def contours_bottom_line(contours):
     """
     bottoms = list(map(lambda cnt: contour_bottom(cnt), contours))
     return points_to_line(bottoms)
+
+
+def most_left_contour(contours):
+    """
+    Searches the contour which has the most extreme left point.
+
+    :param contours: Contours.
+    :return: Most extreme contour.
+    """
+
+    min_x = math.inf
+    left = None
+    for contour in contours:
+        cl = contour_left(contour)[0]
+
+        if cl < min_x:
+            left = contour
+            min_x = cl
+
+    return left
+
+
+def most_right_contour(contours):
+    """
+    Searches the contour which has the most extreme right point.
+
+    :param contours: Contours.
+    :return: Most extreme contour.
+    """
+
+    max_x = -math.inf
+    right = None
+    for contour in contours:
+        cr = contour_right(contour)[0]
+
+        if cr > max_x:
+            right = contour
+            max_x = cr
+
+    return right
+
+
+def get_k_colors(img, k):
+    """
+    Returns k most dominant colors via k-means algorithm.
+
+    :param img: Image to retrieve k colors from.
+    :param k: Number of colors.
+    :return: List of colors. Color values are integers.
+    """
+    data = img.reshape((-1, 3))
+    data = np.float32(data)
+    iterations = 10
+    criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, iterations, 1.0)
+    ret, label, center = cv2.kmeans(data, k, None, criteria, iterations, cv2.KMEANS_RANDOM_CENTERS)
+
+    return list(map(lambda col: (int(col[0]), int(col[1]), int(col[2])), center))
+
+
+def sort_colors_by_brightness(colors):
+    """
+    Averages all colors and sort them by brightness ascending.
+
+    :param colors: List of 3 value arrays/tuples.
+    :return: Colors sorted by brightness ascending.
+    """
+    col_and_avgs = list(
+        map(
+            lambda col: (col, ((col[0]+col[1]+col[2])/3)),
+            colors
+        )
+    )
+
+    # Sort by average value (gray value)
+    sorted_cols = sorted(col_and_avgs, key=lambda tup: tup[1])
+
+    # Return only colors
+    return list(map(lambda tup: tup[0], sorted_cols))
+

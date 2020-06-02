@@ -135,3 +135,25 @@ def split_sprocket_holes(sprocket_holes_contours):
 
     return top, bottom
 
+
+def get_average_sprocket_hole_size(sprocket_holes_contours):
+    """
+    Wraps rectangles around given contours and uses OpenCV's minAreaRect to
+    get all widths and height. They will then be averaged.
+
+    :param sprocket_holes_contours: Contours to get average width and height from.
+    :return: Tuple (avg_width, avg_height). Dimensions are returned as floats.
+    """
+
+    width_sum = 0
+    height_sum = 0
+
+    for hole in sprocket_holes_contours:
+        rect = cv2.minAreaRect(hole)
+        width_sum += rect[1][0]
+        height_sum += rect[1][1]
+
+    avg_width = width_sum / len(sprocket_holes_contours)
+    avg_height = height_sum / len(sprocket_holes_contours)
+
+    return avg_width, avg_height
