@@ -53,7 +53,7 @@ def get_sprocket_holes_contours(bw_negative):
     all its children as sprocket holes.
 
     :param bw_negative: Negative with black background/border and white strip.
-    :return: All contours found within the strip.
+    :return: All contours found within the strip. Not arranged.
     """
 
     contours, hierarchy = cv2.findContours(bw_negative, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
@@ -92,7 +92,7 @@ def split_sprocket_holes(sprocket_holes_contours):
     Splits the given sprocket holes into two groups: top and bottom holes.
 
     :param sprocket_holes_contours: All contours.
-    :return: Tuple (top_contours, bottom_contours).
+    :return: Tuple (top_contours, bottom_contours). Contours are sorted left to right.
     """
 
     # n = 2, because a sprocket hole can be at the left and/or right of the current hole
@@ -102,8 +102,18 @@ def split_sprocket_holes(sprocket_holes_contours):
     g1 = groups[0]
     g2 = groups[1]
 
-    centers1 = list(map(lambda cnt: contour_center(cnt), g1))
-    centers2 = list(map(lambda cnt: contour_center(cnt), g2))
+    # First let us add the centers to the groups
+    g1 = list(map(lambda cnt: (cnt, contour_center(cnt)), g1))
+    g2 = list(map(lambda cnt: (cnt, contour_center(cnt)), g2))
+
+    # Now let us sort the groups left to right
+    #  > tup[1] is center ... [0] x coordinate
+    g1 = sorted(g1, key=lambda tup: tup[1][0])
+    g2 = sorted(g2, key=lambda tup: tup[1][0])
+
+    # Get the list of centers
+    centers1 = list(map(lambda tup: tup[1], g1))
+    centers2 = list(map(lambda tup: tup[1], g2))
 
     line1 = points_to_line(centers1)
     line2 = points_to_line(centers2)
@@ -119,6 +129,9 @@ def split_sprocket_holes(sprocket_holes_contours):
         top = g2
         bottom = g1
 
-    return top, bottom
+    # Remove the centers
+    top = list(map(lambda tup: tup[0], top))
+    bottom = list(map(lambda tup: tup[0], bottom))
 
+    return top, bottom
 
