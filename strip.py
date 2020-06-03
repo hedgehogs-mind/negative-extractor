@@ -14,6 +14,7 @@ def create_bordered_negative(negative):
     :param negative: Negative image.
     :return: Image with additional white border.
     """
+    # todo: make border size dependent on image size
     border_padding = 2
 
     border_negative = cv2.copyMakeBorder(
@@ -34,6 +35,8 @@ def create_bw_negative(negative):
     :param negative: Negative image.
     :return: Negative as bw image. Background and holes are black, strip white.
     """
+
+    # todo: make blur size dependent on image dims
 
     gray_negative = cv2.cvtColor(negative, cv2.COLOR_BGR2GRAY)
     gray_blur = cv2.blur(gray_negative, (2, 2))

@@ -466,7 +466,7 @@ def get_k_colors(img, k):
 
     :param img: Image to retrieve k colors from.
     :param k: Number of colors.
-    :return: List of colors. Color values are integers.
+    :return: List of colors. Colors are numpy 16bit unsigned integers arrays.
     """
     data = img.reshape((-1, 3))
     data = np.float32(data)
@@ -474,7 +474,7 @@ def get_k_colors(img, k):
     criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, iterations, 1.0)
     ret, label, center = cv2.kmeans(data, k, None, criteria, iterations, cv2.KMEANS_RANDOM_CENTERS)
 
-    return list(map(lambda col: (int(col[0]), int(col[1]), int(col[2])), center))
+    return list(map(lambda col: np.array([int(col[0]), int(col[1]), int(col[2])], dtype=np.uint16), center))
 
 
 def sort_colors_by_brightness(colors):
@@ -486,7 +486,7 @@ def sort_colors_by_brightness(colors):
     """
     col_and_avgs = list(
         map(
-            lambda col: (col, ((col[0]+col[1]+col[2])/3)),
+            lambda col: (col, (col[0]+col[1]+col[2])),  # We just need it for sorting, so no /3 needed
             colors
         )
     )
@@ -497,3 +497,24 @@ def sort_colors_by_brightness(colors):
     # Return only colors
     return list(map(lambda tup: tup[0], sorted_cols))
 
+
+def calc_color_mask_diff(darkest_color, brightest_color):
+    """
+    TODO: doc pending peter .... :)
+
+    :param darkest_color:
+    :param brightest_color:
+    :return:
+    """
+    darkest_color_avg = np.int16((darkest_color[0] + darkest_color[1] + darkest_color[2]) / 3)
+    brightest_color_avg = np.int16((brightest_color[0] + brightest_color[1] + brightest_color[2]) / 3)
+
+    dark_diff = np.array(darkest_color, dtype=np.int16) - darkest_color_avg
+    brightest_diff = np.array(brightest_color, dtype=np.int16) - brightest_color_avg
+
+    print(dark_diff)
+    print(brightest_diff)
+
+    # todo: Do I need both diffs?
+
+    return brightest_diff
