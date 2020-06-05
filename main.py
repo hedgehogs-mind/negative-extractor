@@ -24,10 +24,10 @@ cv2.resizeWindow(window, 800, 600)
 
 
 #negative = cv2.imread("images/test_negative_small_rotated_mirrored.tiff")
-negative = cv2.imread("images/test_negative_small_rotated.tiff")
+#negative = cv2.imread("images/test_negative_small_rotated.tiff")
 #negative = cv2.imread("images/test_single_negative_small.tiff")
 #negative = cv2.imread("images/test_negative_small.tiff")
-#negative = cv2.imread("images/test_negative.tiff")
+negative = cv2.imread("images/test_negative.tiff")
 
 
 
@@ -46,17 +46,40 @@ wb_negative = rotated_negative.copy()
 color_mask = calc_color_mask_diff(darkest_color, brightest_color)
 color_correction = -color_mask
 
+print("Mask: {}".format(color_mask))
+print("Diff: {}".format(color_correction))
+
 # Apply color correction
 
-# todo !!!!!!
-# todo fix too blue background > use uint16 type
+wb_negative = wb_negative.astype(dtype=np.int16)
+wb_negative[:, :] += color_correction
+wb_negative = np.clip(wb_negative, 0, 255)
+wb_negative = wb_negative.astype(dtype=np.uint8)
 
-wb_negative[:, :, 0] = np.clip(wb_negative[:, :, 0] + color_correction[0], 0, 255)
-wb_negative[:, :, 1] = np.clip(wb_negative[:, :, 1] + color_correction[1], 0, 255)
-wb_negative[:, :, 2] = np.clip(wb_negative[:, :, 2] + color_correction[2], 0, 255)
 
 # And invert
 wb_negative = cv2.bitwise_not(wb_negative)
+
+# Now let us handle the contrast
+pos_brightest_color = 255-(darkest_color+color_correction)
+pos_darkest_color = 255-(brightest_color+color_correction)
+
+color_displacement = np.mean(pos_darkest_color)
+color_factor = 255/(np.mean(pos_brightest_color)-color_displacement)
+
+print("Pos. brightest: {}".format(pos_brightest_color))
+print("Pos. darkest:   {}".format(pos_darkest_color))
+
+print("Displacement: {}".format(color_displacement))
+print("Factor: {}".format(color_factor))
+
+
+wb_negative = wb_negative.astype(dtype=np.int16)
+
+wb_negative[:, :] = (wb_negative[:, :]-color_displacement) * color_factor
+
+wb_negative = np.clip(wb_negative, 0, 255)
+wb_negative = wb_negative.astype(dtype=np.uint8)
 
 t_end = time.time()
 print("time: {:.3f}s".format((t_end-t_start)))

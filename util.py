@@ -512,9 +512,7 @@ def calc_color_mask_diff(darkest_color, brightest_color):
     dark_diff = np.array(darkest_color, dtype=np.int16) - darkest_color_avg
     brightest_diff = np.array(brightest_color, dtype=np.int16) - brightest_color_avg
 
-    print(dark_diff)
-    print(brightest_diff)
-
     # todo: Do I need both diffs?
 
+    #return ((brightest_diff+dark_diff)/2).astype(dtype=np.int16)
     return brightest_diff
