@@ -1,27 +1,37 @@
-from statistics import mean
+import math
 
 import cv2
-
 from util import group_contours_by_distance, points_to_line, contour_center
+import numpy as np
+
+border_size_rel_to_dims = 0.01
+border_min_size = 4
+
+blur_size_rel_to_dims = 0.001
+blur_min_size = 2
+
+bw_threshold_percent = 0.9
 
 
 def create_bordered_negative(negative):
     """
-    Adds two pixel wide border around the negative.
+    Adds 1% wide border around the negative. Border color is white.
 
-    Border color is white.
+    Supports any color depths.
 
     :param negative: Negative image.
     :return: Image with additional white border.
     """
-    # todo: make border size dependent on image size
-    border_padding = 2
+    (h, w) = negative.shape[:2]
+    pad = int(math.ceil(max(border_size_rel_to_dims * max(h, w), border_min_size)))
+
+    border_color = (np.iinfo(negative.dtype).max,) * 3
 
     border_negative = cv2.copyMakeBorder(
         negative,
-        border_padding, border_padding, border_padding, border_padding,
+        pad, pad, pad, pad,
         cv2.BORDER_CONSTANT,
-        value=(255, 255, 255)
+        value=border_color
     )
 
     return border_negative
@@ -32,15 +42,23 @@ def create_bw_negative(negative):
     The image will be made black and white. The negative (strip) will be white and
     the background black.
 
+    Min blur size is 2, or 0.1% of max dims.
+
+    Supports any color depth.
+
     :param negative: Negative image.
     :return: Negative as bw image. Background and holes are black, strip white.
     """
 
-    # todo: make blur size dependent on image dims
+    (h, w) = negative.shape[:2]
+    blur_size = int(math.ceil(max(blur_size_rel_to_dims * max(h, w), blur_min_size)))
+
+    max_val = np.iinfo(negative.dtype).max
+    threshold_val = max_val * bw_threshold_percent
 
     gray_negative = cv2.cvtColor(negative, cv2.COLOR_BGR2GRAY)
-    gray_blur = cv2.blur(gray_negative, (2, 2))
-    (thresh, bw_negative) = cv2.threshold(gray_blur, 230, 255, cv2.THRESH_BINARY_INV)
+    gray_blur = cv2.blur(gray_negative, (blur_size, blur_size))
+    (thresh, bw_negative) = cv2.threshold(gray_blur, threshold_val, max_val, cv2.THRESH_BINARY_INV)
 
     return bw_negative
 
@@ -59,7 +77,11 @@ def get_sprocket_holes_contours(bw_negative):
     :return: All contours found within the strip. Not arranged.
     """
 
-    contours, hierarchy = cv2.findContours(bw_negative, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    # findContours can only handle 8bit images
+    if bw_negative.dtype is not np.uint8:
+        bw8 = bw_negative.astype(np.uint8)
+
+    contours, hierarchy = cv2.findContours(bw8, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
     # Grab size of first root contour, assume it is the biggest
     big_root = 0

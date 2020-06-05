@@ -20,6 +20,8 @@ def straighten_35mm_negative(negative):
     This method fixes the strip rotation and returns an image with white borders.
     This way you will always have a white background within the image.
 
+    Supports any color depth.
+
     :param negative: Original negative image.
     :return: Image of straight negative with white background around it.
     """
@@ -51,14 +53,16 @@ def straighten_35mm_negative(negative):
     #    strip "spikes" on the left and right vanishes behind the borders
     (h, w) = bordered_negative.shape[:2]
     center = (cX, cY) = (w // 2, h // 2)
-    M_rot = cv2.getRotationMatrix2D(center, strip_angle_degrees, 1.0)
+    m_rot = cv2.getRotationMatrix2D(center, strip_angle_degrees, 1.0)
+
+    border_color = (np.iinfo(negative.dtype).max,) * 3
 
     # We can rotate the original image > border is everywhere the same,
     # computed angle works for original image too
     rotated_negative = cv2.warpAffine(
-        bordered_negative, M_rot, (w, h),
+        bordered_negative, m_rot, (w, h),
         borderMode=cv2.BORDER_CONSTANT,
-        borderValue=(255, 255, 255)
+        borderValue=border_color
     )
 
     rotated_bordered_negative = create_bordered_negative(rotated_negative)

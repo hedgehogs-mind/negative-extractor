@@ -464,17 +464,20 @@ def get_k_colors(img, k):
     """
     Returns k most dominant colors via k-means algorithm.
 
+    Handles any color depth.
+
     :param img: Image to retrieve k colors from.
     :param k: Number of colors.
-    :return: List of colors. Colors are numpy 16bit unsigned integers arrays.
+    :return: List of colors. Colors are numpy arrays..
     """
     data = img.reshape((-1, 3))
+
     data = np.float32(data)
     iterations = 10
     criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, iterations, 1.0)
     ret, label, center = cv2.kmeans(data, k, None, criteria, iterations, cv2.KMEANS_RANDOM_CENTERS)
 
-    return list(map(lambda col: np.array([int(col[0]), int(col[1]), int(col[2])], dtype=np.uint16), center))
+    return list(map(lambda col: np.array([col[0], col[1], col[2]], dtype=img.dtype), center))
 
 
 def sort_colors_by_brightness(colors):
@@ -484,9 +487,13 @@ def sort_colors_by_brightness(colors):
     :param colors: List of 3 value arrays/tuples.
     :return: Colors sorted by brightness ascending.
     """
+    def color_weight(col):
+        f_col = np.float32(col)
+        return f_col[0] + f_col[1] + f_col[2]
+
     col_and_avgs = list(
         map(
-            lambda col: (col, (col[0]+col[1]+col[2])),  # We just need it for sorting, so no /3 needed
+            lambda col: (col, color_weight(col)),  # We just need it for sorting, so no /3 needed
             colors
         )
     )
@@ -498,21 +505,18 @@ def sort_colors_by_brightness(colors):
     return list(map(lambda tup: tup[0], sorted_cols))
 
 
-def calc_color_mask_diff(darkest_color, brightest_color):
+def calc_white_balance_diff(color):
     """
-    TODO: doc pending peter .... :)
+    Handles any color depth.
 
-    :param darkest_color:
-    :param brightest_color:
-    :return:
+    :param color: Numpy uint(8/16/..) array.
+    :return: Color difference always as signed integer 64bit numpy array!
     """
-    darkest_color_avg = np.int16((darkest_color[0] + darkest_color[1] + darkest_color[2]) / 3)
-    brightest_color_avg = np.int16((brightest_color[0] + brightest_color[1] + brightest_color[2]) / 3)
 
-    dark_diff = np.array(darkest_color, dtype=np.int16) - darkest_color_avg
-    brightest_diff = np.array(brightest_color, dtype=np.int16) - brightest_color_avg
+    f_color = np.float32(color)
+    f_avg = (f_color[0] + f_color[1] + f_color[2]) / 3
 
-    # todo: Do I need both diffs?
+    f_diff = f_color - f_avg
+    f_diff = np.round(f_diff)
 
-    #return ((brightest_diff+dark_diff)/2).astype(dtype=np.int16)
-    return brightest_diff
+    return np.array(f_diff, dtype=np.int64)
