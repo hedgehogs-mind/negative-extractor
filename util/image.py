@@ -47,23 +47,34 @@ def add_border(image, color, percentage=0.01, minimum=1):
     )
 
 
-def blur(image, percentage=0.008, minimum=1):
+def blur(image, mode=1, value=0.005, minimum=1):
     """
+    Explicit blur size.
+
+    OR
+
     Blurs the given image relative to its size. The value of width or height is used
     (the greater one) and multiplied by the given percentage. Is the resulting value than
-    the minimum value
+    the minimum value.
+
     :param image: Image to blur.
-    :param percentage: Blur size relative to the biggest image dimension.
+    :param mode: 0 for absolute blur size (value param) or 1 for relative blur size.
+    :param value: Absolute blur size or blur size relative to the biggest image dimension.
     :param minimum: Minimum blur size (>= 1).
     :return: Blurred image.
     """
 
-    assert percentage >= 0, "Percentage must be >= 0"
+    assert mode == 0 or mode == 1, "Mode must be either 0 or 1"
+    assert value >= 0, "Value must be >= 0"
     assert minimum >= 1, "Min must be at least 1"
 
-    (h, w) = image.shape[:2]
-    max_dim = max(h, w)
-    blur_size = int(max(minimum, math.ceil(max_dim * percentage)))
+    blur_size = minimum
+    if mode == 0:
+        blur_size = max(blur_size, int(value))
+    else:
+        (h, w) = image.shape[:2]
+        max_dim = max(h, w)
+        blur_size = int(max(minimum, math.ceil(max_dim * value)))
 
     return cv2.blur(image, (blur_size, blur_size))
 

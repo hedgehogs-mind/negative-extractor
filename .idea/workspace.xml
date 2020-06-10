@@ -2,11 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c8933b36-ab42-4e5d-a133-41beaf00f5dd" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f135.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/strip.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/util.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/util/contour.py" beforeDir="false" afterPath="$PROJECT_DIR$/util/contour.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/util/image.py" beforeDir="false" afterPath="$PROJECT_DIR$/util/image.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -16,28 +14,83 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="130">
-              <caret line="39" column="19" selection-start-line="39" selection-start-column="19" selection-end-line="39" selection-end-column="19" />
+            <state relative-caret-position="31">
+              <caret line="60" selection-start-line="60" selection-end-line="75" selection-end-column="1" />
               <folding>
-                <element signature="e#0#10#0" expanded="true" />
+                <element signature="e#0#11#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/util/contour.py">
-          <provider selected="true" editor-type-id="text-editor" />
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="70">
+              <caret line="97" column="109" selection-start-line="97" selection-start-column="109" selection-end-line="97" selection-end-column="109" />
+              <folding>
+                <element signature="e#0#11#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/util/features.py">
+        <entry file="file://$USER_HOME$/Library/Caches/PyCharm2019.1/python_stubs/1313942572/cv2/cv2/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="45">
-              <caret line="3" selection-start-line="3" selection-end-line="3" />
+            <state relative-caret-position="-139">
+              <caret line="3665" column="4" selection-start-line="3665" selection-start-column="4" selection-end-line="3665" selection-end-column="4" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/old/util.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="44">
+              <caret line="7" selection-start-line="7" selection-end-line="7" />
+              <folding>
+                <element signature="e#0#17#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/old/strip.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="15">
+              <caret line="8" selection-start-line="8" selection-end-line="8" />
+              <folding>
+                <element signature="e#0#11#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/old/f135.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="216">
+              <caret line="55" column="55" lean-forward="true" selection-start-line="55" selection-start-column="55" selection-end-line="55" selection-end-column="55" />
+              <folding>
+                <element signature="e#0#11#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/util/line.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="143">
+              <caret line="70" column="4" selection-start-line="70" selection-start-column="4" selection-end-line="70" selection-end-column="4" />
+              <folding>
+                <element signature="e#0#11#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -45,8 +98,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/util/image.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="250">
-              <caret line="77" column="18" selection-start-line="77" selection-start-column="18" selection-end-line="77" selection-end-column="18" />
+            <state relative-caret-position="306">
+              <caret line="66" column="31" selection-start-line="66" selection-start-column="31" selection-end-line="66" selection-end-column="31" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
@@ -84,8 +137,10 @@
         <option value="$PROJECT_DIR$/util.py" />
         <option value="$PROJECT_DIR$/util/features.py" />
         <option value="$PROJECT_DIR$/util/image.py" />
-        <option value="$PROJECT_DIR$/main.py" />
+        <option value="$PROJECT_DIR$/old/util.py" />
+        <option value="$PROJECT_DIR$/util/line.py" />
         <option value="$PROJECT_DIR$/util/contour.py" />
+        <option value="$PROJECT_DIR$/main.py" />
       </list>
     </option>
   </component>
@@ -118,6 +173,11 @@
             <path>
               <item name="negative-extractor" type="b2602c69:ProjectViewProjectNode" />
               <item name="negative-extractor" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="negative-extractor" type="b2602c69:ProjectViewProjectNode" />
+              <item name="negative-extractor" type="462c0819:PsiDirectoryNode" />
+              <item name="old" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="negative-extractor" type="b2602c69:ProjectViewProjectNode" />
@@ -199,22 +259,23 @@
       <updated>1590835923532</updated>
       <workItem from="1590835929096" duration="1734000" />
       <workItem from="1590915857480" duration="88051000" />
+      <workItem from="1591647741983" duration="4885000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="89785000" />
+    <option name="totallyTimeSpent" value="94670000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="808" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2532189" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25679544" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32960895" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32960895" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32960895" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39944133" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -236,7 +297,7 @@
     <option name="version" value="1" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/negative_extractor$main.coverage" NAME="main Coverage Results" MODIFIED="1591647252212" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/negative_extractor$main.coverage" NAME="main Coverage Results" MODIFIED="1591807298193" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/.gitignore">
@@ -283,57 +344,72 @@
     <entry file="file://$PROJECT_DIR$/images/test_negative_small_rotated.tiff">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/main_old_straighten_inv_v1.py">
-      <provider selected="true" editor-type-id="text-editor" />
+    <entry file="file://$PROJECT_DIR$/main_old_straighten_inv_v1.py" />
+    <entry file="file://$PROJECT_DIR$/util.py" />
+    <entry file="file://$PROJECT_DIR$/strip.py" />
+    <entry file="file://$PROJECT_DIR$/f135.py" />
+    <entry file="file://$PROJECT_DIR$/util/features.py" />
+    <entry file="file://$USER_HOME$/Library/Caches/PyCharm2019.1/python_stubs/1313942572/cv2/cv2/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-139">
+          <caret line="3665" column="4" selection-start-line="3665" selection-start-column="4" selection-end-line="3665" selection-end-column="4" />
+        </state>
+      </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/util.py">
+    <entry file="file://$PROJECT_DIR$/util/image.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="66" column="31" selection-start-line="66" selection-start-column="31" selection-end-line="66" selection-end-column="31" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/util/contour.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="70">
+          <caret line="97" column="109" selection-start-line="97" selection-start-column="109" selection-end-line="97" selection-end-column="109" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/util/line.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="143">
-          <caret line="132" column="30" selection-start-line="132" selection-start-column="30" selection-end-line="132" selection-end-column="30" />
+          <caret line="70" column="4" selection-start-line="70" selection-start-column="4" selection-end-line="70" selection-end-column="4" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/old/util.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="44">
+          <caret line="7" selection-start-line="7" selection-end-line="7" />
           <folding>
             <element signature="e#0#17#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/strip.py">
+    <entry file="file://$PROJECT_DIR$/old/strip.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="80" selection-start-line="80" selection-end-line="81" selection-end-column="42" />
+        <state relative-caret-position="15">
+          <caret line="8" selection-start-line="8" selection-end-line="8" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/f135.py">
+    <entry file="file://$PROJECT_DIR$/old/f135.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="57">
-          <caret line="165" column="4" selection-start-line="165" selection-start-column="4" selection-end-line="165" selection-end-column="4" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Library/Caches/PyCharm2019.1/python_stubs/1313942572/cv2/cv2/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-292">
-          <caret line="3861" column="4" selection-start-line="3861" selection-start-column="4" selection-end-line="3861" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/util/features.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" selection-start-line="3" selection-end-line="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/util/image.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="250">
-          <caret line="77" column="18" selection-start-line="77" selection-start-column="18" selection-end-line="77" selection-end-column="18" />
+        <state relative-caret-position="216">
+          <caret line="55" column="55" lean-forward="true" selection-start-line="55" selection-start-column="55" selection-end-line="55" selection-end-column="55" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>
@@ -342,16 +418,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="130">
-          <caret line="39" column="19" selection-start-line="39" selection-start-column="19" selection-end-line="39" selection-end-column="19" />
+        <state relative-caret-position="31">
+          <caret line="60" selection-start-line="60" selection-end-line="75" selection-end-column="1" />
           <folding>
-            <element signature="e#0#10#0" expanded="true" />
+            <element signature="e#0#11#0" expanded="true" />
           </folding>
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/util/contour.py">
-      <provider selected="true" editor-type-id="text-editor" />
     </entry>
   </component>
 </project>
