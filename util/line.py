@@ -39,7 +39,8 @@ def points_to_line(points):
 
         delta_y = pt2[1]-pt1[1]
         length = np.linalg.norm(pt2-pt1)
-        angle = delta_y/length
+        sign = 1 if pt2[0] >= pt1[0] else -1
+        angle = delta_y / length * sign  # sign needed so points can also be passed right to left
 
         angles_sum += angle
 

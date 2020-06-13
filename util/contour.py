@@ -96,6 +96,7 @@ def rectangle_corners(contour):
 
     :param contour: Rectangle contour.
     :return: Four corner points in an order that can be drawn like a contour. As list of numpy arrays/points.
+    Order is: top-left, top-right, bottom-right, bottom-left.
     """
     min_rect = cv2.minAreaRect(contour)
 
@@ -112,4 +113,22 @@ def rectangle_corners(contour):
     corners = cv2.approxPolyDP(contour, epsilon, True)
     assert len(corners) == 4, "Somehow got not just 4 corners, got {}".format(len(corners))
 
-    return list(map(lambda arr: arr[0], corners))
+    # now let us sort them by the sum distance rel to the zero point
+    # first point must be upper left corner and last point bottom right one
+    corners_flat = corners.reshape(4, 2)
+    l = sorted(corners_flat, key=lambda pt: pt[0] + pt[1])
+
+    top_left = l[0]
+    top_right = None
+    bottom_right = l[3]
+    bottom_left = None
+
+    # now let's check which of the points in between it at the top and which at the bottom
+    if l[1][1] < l[2][1]:  # second is at the top > top right corner, 3rd at bottom (left)
+        top_right = l[1]
+        bottom_left = l[2]
+    else:  # the other way around ...
+        top_right = l[2]
+        bottom_left = l[1]
+
+    return [top_left, top_right, bottom_right, bottom_left]
